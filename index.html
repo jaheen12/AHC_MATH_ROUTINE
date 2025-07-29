@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&family=Dancing+Script&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #3D52A0;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 1rem;
+      font-family: 'Nunito', sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #3D52A0, #7071E8, #C471ED, #F77D92);
+      color: #333;
+      box-sizing: border-box;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .schedule-container {
+      max-width: 1100px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      width: 100%;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .title-panel {
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      padding: 1rem 2rem;
+      display: inline-block;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(5px);
+    }
+
+    .header h1 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 4em);
+      color: white;
+      margin: 0;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow: visible;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 8px;
+      text-align: center;
+      table-layout: fixed;
+    }
+
+    th, td {
+      padding: 0.8rem 0.5rem;
+      border-radius: 12px;
+      border: none;
+      font-size: clamp(0.75rem, 2vw, 1rem);
+      vertical-align: middle;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+      line-height: 1.3;
+    }
+
+    /* Column widths - adjust based on content */
+    th:nth-child(1), td:nth-child(1) { width: 15%; }
+    th:nth-child(2), td:nth-child(2) { width: 17%; }
+    th:nth-child(3), td:nth-child(3) { width: 17%; }
+    th:nth-child(4), td:nth-child(4) { width: 17%; }
+    th:nth-child(5), td:nth-child(5) { width: 17%; }
+    th:nth-child(6), td:nth-child(6) { width: 17%; }
+
+    thead th {
+      color: white;
+      font-weight: 700;
+      font-size: clamp(0.8rem, 2.2vw, 1.05rem);
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+    }
+
+    thead th:nth-child(1) { background-color: #ff8fab; }
+    thead th:nth-child(2) { background-color: #fec89a; }
+    thead th:nth-child(3) { background-color: #90dbf4; }
+    thead th:nth-child(4) { background-color: #a0c4ff; }
+    thead th:nth-child(5) { background-color: #80ed99; }
+    thead th:nth-child(6) { background-color: #bdb2ff; }
+
+    tbody td {
+      background-color: #ffffff;
+      font-weight: 700;
+    }
+
+    tbody td strong {
+      font-weight: 900;
+    }
+
+    .page-break {
+      margin-top: 3rem;
+      padding-top: 3rem;
+    }
+
+    .teachers-section h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5em);
+      color: var(--primary);
+      text-align: center;
+      text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.3);
+    }
+
+    .teachers-list {
+      background: white;
+      list-style: none;
+      padding: 1.5rem 2rem;
+      margin: 1rem auto;
+      border-radius: 15px;
+      max-width: 90%;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .teachers-list li {
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      text-align: left;
+      line-height: 1.8;
+    }
+
+    .subtle-signature {
+      text-align: right;
+      font-family: 'Dancing Script', cursive;
+      font-size: 12px;
+      color: white;
+      opacity: 0.6;
+      margin-top: 1rem;
+      user-select: none;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 0.5rem;
+      }
+
+      .schedule-container {
+        padding: 1rem;
+      }
+
+      .title-panel {
+        padding: 0.75rem 1.5rem;
+      }
+
+      th, td {
+        padding: 0.5rem 0.3rem;
+        font-size: clamp(0.65rem, 2.5vw, 0.85rem);
+      }
+
+      .teachers-list {
+        padding: clamp(0.8rem, 3vw, 1.5rem);
+        max-width: 95%;
+      }
+
+      .teachers-list li {
+        font-size: clamp(0.8rem, 2.8vw, 1rem);
+        line-height: 1.6;
+      }
+
+      /* Adjust column widths for mobile */
+      th:nth-child(1), td:nth-child(1) { width: 18%; }
+      th:nth-child(2), td:nth-child(2) { width: 16.4%; }
+      th:nth-child(3), td:nth-child(3) { width: 16.4%; }
+      th:nth-child(4), td:nth-child(4) { width: 16.4%; }
+      th:nth-child(5), td:nth-child(5) { width: 16.4%; }
+      th:nth-child(6), td:nth-child(6) { width: 16.4%; }
+    }
+
+    @media (max-width: 480px) {
+      th, td {
+        padding: 0.4rem 0.2rem;
+        font-size: clamp(0.6rem, 3vw, 0.75rem);
+        line-height: 1.2;
+      }
+
+      table {
+        border-spacing: 4px;
+      }
+
+      .teachers-list {
+        padding: clamp(0.6rem, 2.5vw, 1rem);
+        max-width: 98%;
+      }
+
+      .teachers-list li {
+        font-size: clamp(0.7rem, 3.2vw, 0.9rem);
+        line-height: 1.5;
+      }
+    }
+
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+
+      body { 
+        background: linear-gradient(135deg, #3D52A0, #7071E8, #C471ED, #F77D92) !important;
+        padding: 0.5rem !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .schedule-container {
+        background: rgba(255, 255, 255, 0.2) !important;
+        border-radius: 20px !important;
+        padding: 1.5rem !important;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .title-panel {
+        background: rgba(255, 255, 255, 0.25) !important;
+        border-radius: 20px !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        backdrop-filter: blur(5px) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .header h1 {
+        color: white !important;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      thead th {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color: white !important;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15) !important;
+        border: none !important;
+      }
+
+      thead th:nth-child(1) { 
+        background-color: #ff8fab !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      thead th:nth-child(2) { 
+        background-color: #fec89a !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      thead th:nth-child(3) { 
+        background-color: #90dbf4 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      thead th:nth-child(4) { 
+        background-color: #a0c4ff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      thead th:nth-child(5) { 
+        background-color: #80ed99 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      thead th:nth-child(6) { 
+        background-color: #bdb2ff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      tbody td {
+        background-color: #ffffff !important;
+        border: none !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .teachers-list {
+        background: white !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .teachers-section h2 {
+        color: var(--primary) !important;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.3) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .subtle-signature { 
+        color: white !important;
+        opacity: 0.6 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .page-break { 
+        page-break-before: always;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="schedule-container">
+    <div class="header">
+      <div class="title-panel">
+        <h1>Class Schedule</h1>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">TIME</th>
+            <th scope="col">SUNDAY</th>
+            <th scope="col">MONDAY</th>
+            <th scope="col">TUESDAY</th>
+            <th scope="col">WEDNESDAY</th>
+            <th scope="col">THURSDAY</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>9:45–10:30</strong></td>
+            <td>Analytic and<br>Vector Geometry (AH)</td>
+            <td>Fundamentals<br>of Mathematics (NP)</td>
+            <td>Linear Algebra (RI)</td>
+            <td>Linear Algebra (NS)</td>
+            <td>MR</td>
+          </tr>
+          <tr>
+            <td><strong>10:30–11:15</strong></td>
+            <td>Fundamentals<br>of Mathematics (AM)</td>
+            <td>Linear Algebra (NS)</td>
+            <td>Analytic and<br>Vector Geometry (AR)</td>
+            <td>Analytic and<br>Vector Geometry (AH)</td>
+            <td>Calculus (FI)</td>
+          </tr>
+          <tr>
+            <td><strong>11:15–12:00</strong></td>
+            <td>Statistics (NM)</td>
+            <td>Calculus (ARJ)</td>
+            <td>Calculus (FI)</td>
+            <td>Analytic and<br>Vector Geometry (AR)</td>
+            <td>Fundamentals<br>of Mathematics (NP)</td>
+          </tr>
+          <tr>
+            <td><strong>12:00–12:45</strong></td>
+            <td>Physics (NM)</td>
+            <td>NM-PHY</td>
+            <td>STAT-NM</td>
+            <td>NM-ARJ</td>
+            <td>NM-MR</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="subtle-signature">Md. Jafor Sadik</p>
+    </div>
+
+    <div class="page-break teachers-section">
+      <h2>Teachers' Full Names</h2>
+      <ul class="teachers-list">
+        <li><strong>AH</strong> – Aymul Habib</li>
+        <li><strong>AM</strong> – Md. Alam Mondal</li>
+        <li><strong>RI</strong> – Md. Rafiqul Islam (HoD)</li>
+        <li><strong>FI</strong> – Fokhrol Islam</li>
+        <li><strong>AR</strong> – Anisur Rahman</li>
+        <li><strong>ARJ</strong> – Arifur Rahman Jewel</li>
+        <li><strong>MR</strong> – Mizanur Rahman</li>
+        <li><strong>NS</strong> – Nasrin Sultana</li>
+        <li><strong>NP</strong> – Nirmal Chandra Paul</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
